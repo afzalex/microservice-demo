@@ -1,0 +1,15 @@
+server:
+    port: ${PORT:6660}
+
+spring:
+    application: 
+        name: eureka-server
+
+eureka:
+    instance:
+        hostname: localhost
+    server:
+       enableSelfPreservation: false
+    client:
+        register-with-eureka: false
+        fetch-registry: false

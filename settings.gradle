@@ -1,0 +1,3 @@
+rootProject.name = 'microservice-demo'
+
+include 'eureka-server', 'core', 'order-service', 'product-service'

@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ProductModel {
+public class Order {
 	private Integer id;
-	private String name;
-	private String category;
+	private Integer quantity;
+	private Integer productId;
 }

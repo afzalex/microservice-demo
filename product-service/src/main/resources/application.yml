@@ -6,6 +6,12 @@ spring:
         name: product-service
 
 eureka:
+    instance:
+        hostname: ${HOSTNAME:localhost}
+        preferIpAddress: false
     client:
         serviceUrl:
             defaultZone: http://${EUREKA_HOST:localhost}:6660/eureka
+logging:
+    level:
+        root: DEBUG

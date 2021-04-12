@@ -1,0 +1,25 @@
+server:
+    port: ${PORT:6669}
+
+eureka:
+  instance:
+    hostname: ${HOSTNAME:localhost}
+    preferIpAddress: false
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:6660/eureka
+            
+spring:
+  application: 
+    name: gateway-server
+  cloud:
+    gateway:
+      routes:
+      - id: product-service
+        uri: lb://product-service
+        predicates:
+          - Path=/products/**
+      - id: order-service
+        uri: lb://order-service
+        predicates:
+          - Path=/orders/**

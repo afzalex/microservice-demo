@@ -10,8 +10,6 @@ eureka:
       defaultZone: http://${EUREKA_HOST:localhost}:6660/eureka
             
 spring:
-  application: 
-    name: gateway-server
   cloud:
     gateway:
       routes:

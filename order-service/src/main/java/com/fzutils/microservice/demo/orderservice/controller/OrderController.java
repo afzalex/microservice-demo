@@ -14,13 +14,16 @@ import com.fzutils.microservice.demo.orderservice.dto.OrderDto;
 import com.fzutils.microservice.demo.orderservice.model.Order;
 import com.fzutils.microservice.demo.orderservice.service.OrderService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor(onConstructor_={@Autowired})
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
 
 	@Autowired
-	private OrderService orderService;
-
+	private final OrderService orderService;
+    
 	@PostConstruct
 	public void postConstruct() {
 

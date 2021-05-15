@@ -2,11 +2,13 @@ version: "3.9"
 services:
   eureka:
     build: ./eureka-server
+    container_name: micro-eureka
     ports:
       - 6660:6660
 
   gateway:
     build: ./gateway-server
+    container_name: micro-gateway
     environment:
       - EUREKA_HOST=eureka
     ports:
@@ -16,23 +18,31 @@ services:
     build: ./product-service
     environment:
       - EUREKA_HOST=eureka
+      - LOGSTASH_HOST=elasticsearch
     ports:
       - 6661:6661
   order:
     build: ./order-service
     environment:
       - EUREKA_HOST=eureka
+      - LOGSTASH_HOST=elasticsearch
     ports:
       - 6662:6662
 
 
 
 
+
+
+##########################################################
+################## ELK Stack #############################
+
   elasticsearch:
     build:
       context: elasticsearch/
       args:
         ELK_VERSION: $ELK_VERSION
+    container_name: micro-elastic
 #    volumes:
 #      - type: bind
 #        source: ./elasticsearch/config/elasticsearch.yml
@@ -56,6 +66,7 @@ services:
       context: logstash/
       args:
         ELK_VERSION: $ELK_VERSION
+    container_name: micro-logstash
 #    volumes:
 #      - type: bind
 #        source: ./logstash/config/logstash.yml
@@ -67,8 +78,7 @@ services:
 #        read_only: true
     ports:
       - "5044:5044"
-      - "5000:5000/tcp"
-      - "5000:5000/udp"
+      - "5000:5000"
       - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
@@ -82,6 +92,7 @@ services:
       context: kibana/
       args:
         ELK_VERSION: $ELK_VERSION
+    container_name: micro-kibana
 #    volumes:
 #      - type: bind
 #        source: ./kibana/config/kibana.yml
@@ -100,3 +111,27 @@ services:
 #
 #volumes:
 #  elasticsearch:
+
+################## ELK Stack #############################
+##########################################################
+
+  zipkinserver:
+    image: openzipkin/zipkin
+    container_name: micro-zipkin
+    ports:
+      - '9411:9411'
+
+  axonserver:
+    build: 
+      context: axonserver
+      # image: axoniq/axonserver
+      # hostname: axonserver
+    container_name: micro-axon
+    volumes:
+      - ./.data/axon/data:/data
+      - ./.data/axon/eventdata:/eventdata
+      # - axonserver-config:/config:ro
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+      - '8224:8224'

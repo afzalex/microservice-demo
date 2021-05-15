@@ -1,9 +1,13 @@
 server:
     port: ${PORT:6661}
 
-spring:
-    application: 
-        name: product-service
+logging:
+  file: ./application.log
+  level:
+    root: info
+  pattern:
+    #console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%logger){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+    console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%t]){faint} %clr(%logger){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
 
 eureka:
     instance:
@@ -12,6 +16,3 @@ eureka:
     client:
         serviceUrl:
             defaultZone: http://${EUREKA_HOST:localhost}:6660/eureka
-logging:
-    level:
-        root: DEBUG

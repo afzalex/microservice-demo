@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property resource="application.properties" />
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<appender name="ELK" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<destination>${application.logstash.hostname}:${application.logstash.port}</destination>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder">
+			<customFields>
+				{
+					"appName": "${spring.application.name}",
+					"hostname": "${HOSTNAME}"
+				}
+			</customFields>
+		</encoder>
+	</appender>
+
+	<root level="DEBUG">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
